@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MONARCH Benin — Customer and Akara Seller Review</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#102039;color:#fff;font:17px system-ui,-apple-system,sans-serif}
+main{max-width:560px;margin:auto;padding:20px}h1{font-size:25px}h2{font-size:22px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.big{border:0;border-radius:17px;background:#f3d891;color:#142238;padding:18px 10px;min-height:92px;font:700 18px system-ui;width:100%}
+.big:focus-visible{outline:4px solid white}.secondary{background:#c8e5fc}.panel{background:#203653;border:1px solid #607798;border-radius:16px;padding:15px;margin:15px 0}
+select{width:100%;font:18px system-ui;padding:12px;border-radius:10px;margin:6px 0 13px}label{font-weight:700}.hide{display:none}.muted{color:#d0dced;font-size:14px}#message,#sellerMessage{white-space:pre-line;line-height:1.5}
+</style></head><body><main><h1>👑 MONARCH Benin</h1><p class="muted">SYNTHETIC REVIEW · CROWN HOLD · No real orders or payments</p>
+<div class="grid"><button id="customerTab" class="big">🛍️ Customer</button><button id="sellerTab" class="big secondary">🍘 Akara Woman</button></div>
+<section id="customer"><h2>Wetin you wan buy?</h2><div class="grid">
+<button class="big category" data-name="Akara">🍘 Akara</button><button class="big category" data-name="Food">🍲 Food</button>
+<button class="big category" data-name="Market">🛒 Market</button><button class="big category" data-name="Services">🔧 Services</button>
+<button class="big category" data-name="Waka">🛵 Waka</button><button class="big category" data-name="Osayi">🎙️ Osayi Help</button></div>
+<div class="panel" id="order"><h2>Buy Akara</h2><label for="seller">Choose seller</label><select id="seller"><option value="mama">Mama Akara (fictional)</option><option value="aunty">Aunty Akara (fictional)</option></select>
+<label for="zone">Choose delivery area</label><select id="zone"><option value="near">Nearby example</option><option value="far">Farther away — my choice</option></select>
+<label for="qty">Quantity</label><select id="qty"><option value="1">1 portion</option><option value="3" selected>3 portions</option><option value="5">5 portions</option></select>
+<button id="quote" class="big">See Full Price</button><div id="quotePanel" class="hide"><p id="price"></p><button id="accept" class="big">Accept Delivery Quote</button></div>
+<p id="message" role="status" aria-live="polite">No order placed.</p></div></section>
+<section id="sellerPanel" class="hide"><h2>Mama, your Akara shop</h2><div class="grid">
+<button class="big sellerAction" data-name="orders">📦 New Orders</button><button class="big sellerAction" data-name="stock">🍘 My Akara</button>
+<button class="big sellerAction" data-name="available">🟢 Available?</button><button class="big sellerAction" data-name="sales">💰 Today's Sales</button></div>
+<div class="panel"><p id="sellerMessage" role="status" aria-live="polite">Only Mama Akara's fictional business is shown.</p></div></section>
+<p class="muted">Manual location choice only; no GPS used. Fictional prices and sellers. No dispatch, payment, live seller registration or human operator connected.</p></main>
+<script>
+"use strict";
+const el=id=>document.getElementById(id);let quote=null;let order=null;
+function view(seller){el("customer").classList.toggle("hide",seller);el("sellerPanel").classList.toggle("hide",!seller)}
+el("customerTab").onclick=()=>view(false);el("sellerTab").onclick=()=>view(true);
+document.querySelectorAll(".category").forEach(b=>b.onclick=()=>{if(b.dataset.name==="Akara"){el("order").scrollIntoView({behavior:"smooth"});el("message").textContent="Choose seller, area and quantity."}else el("message").textContent=b.dataset.name+" belongs to the connected marketplace design; this test focuses on Akara."});
+function reset(){quote=null;el("quotePanel").classList.add("hide");el("message").textContent="Selection changed. Request a new quote."}
+["seller","zone","qty"].forEach(id=>el(id).onchange=reset);
+el("quote").onclick=()=>{const seller=el("seller").value,zone=el("zone").value,qty=Number(el("qty").value),item=qty*(seller==="mama"?100:120),delivery=zone==="near"?600:1700;quote={seller,zone,qty,item,delivery,total:item+delivery};el("price").textContent="Akara ₦"+item.toLocaleString()+" + delivery ₦"+delivery.toLocaleString()+" = TOTAL ₦"+quote.total.toLocaleString()+" (fictional)";el("quotePanel").classList.remove("hide");el("message").textContent="Customer chooses seller and distance. Review delivery charge before accepting."};
+el("accept").onclick=()=>{if(!quote){el("message").textContent="Get a quote first.";return}order={...quote,authority:false,execution:"BLOCKED",payment:"NOT_TAKEN",dispatch:"NOT_REQUESTED"};el("message").textContent="SIMULATED ORDER RECORDED — Seller review pending. No payment. No rider dispatched. CROWN HOLD."};
+document.querySelectorAll(".sellerAction").forEach(b=>b.onclick=()=>{const n=b.dataset.name;el("sellerMessage").textContent=n==="orders"?(order&&order.seller==="mama"?"1 fictional order: "+order.qty+" portions. Review pending.":"No fictional orders for Mama Akara."):{stock:"Fictional akara stock only.",available:"Availability not connected to real customers.",sales:"No real sales or payments."}[n]});
+</script></body></html>
