@@ -1,0 +1,237 @@
+{
+  "schema": "MONARCH-OWOW-UNIVERSAL-REGISTRY-001",
+  "version": "0.1.0",
+  "status": "CANDIDATE_NOT_VERIFIED",
+  "generated": "2026-11-13",
+  "policy": {
+    "crown_hold": true,
+    "no_overwrite": true,
+    "unknown_remains_unknown": true,
+    "no_production_authority": true,
+    "default_language": "Nigerian Pidgin",
+    "home_buttons": [
+      "Find Anything",
+      "Buy Something",
+      "Book a Service",
+      "Send Something",
+      "Choose Location",
+      "Talk to Osayi"
+    ]
+  },
+  "shared_engines": [
+    "discovery",
+    "context-lake",
+    "eligibility",
+    "identity",
+    "consent",
+    "matching",
+    "quotations",
+    "scheduling",
+    "payments-review",
+    "logistics",
+    "notifications",
+    "disputes",
+    "audit",
+    "human-escalation"
+  ],
+  "sectors": [
+    {
+      "id": "food-and-hospitality",
+      "customer_route": "six-button-home > contextual choices > review",
+      "business_interface": "food-and-hospitality-provider",
+      "required_engines": [
+        "discovery",
+        "matching",
+        "quotations",
+        "logistics"
+      ],
+      "implementation": "UNKNOWN",
+      "end_to_end_verified": false,
+      "live_partner_count": "UNKNOWN"
+    },
+    {
+      "id": "transport-and-ticketing",
+      "customer_route": "six-button-home > contextual choices > review",
+      "business_interface": "transport-and-ticketing-provider",
+      "required_engines": [
+        "identity",
+        "matching",
+        "scheduling",
+        "logistics"
+      ],
+      "implementation": "UNKNOWN",
+      "end_to_end_verified": false,
+      "live_partner_count": "UNKNOWN"
+    },
+    {
+      "id": "schools-and-child-transport",
+      "customer_route": "six-button-home > contextual choices > review",
+      "business_interface": "schools-and-child-transport-provider",
+      "required_engines": [
+        "identity",
+        "consent",
+        "scheduling",
+        "audit",
+        "human-escalation"
+      ],
+      "implementation": "UNKNOWN",
+      "end_to_end_verified": false,
+      "live_partner_count": "UNKNOWN"
+    },
+    {
+      "id": "education-and-diaspora-mentoring",
+      "customer_route": "six-button-home > contextual choices > review",
+      "business_interface": "education-and-diaspora-mentoring-provider",
+      "required_engines": [
+        "identity",
+        "consent",
+        "matching",
+        "scheduling"
+      ],
+      "implementation": "UNKNOWN",
+      "end_to_end_verified": false,
+      "live_partner_count": "UNKNOWN"
+    },
+    {
+      "id": "farming-and-cooperatives",
+      "customer_route": "six-button-home > contextual choices > review",
+      "business_interface": "farming-and-cooperatives-provider",
+      "required_engines": [
+        "matching",
+        "quotations",
+        "logistics"
+      ],
+      "implementation": "UNKNOWN",
+      "end_to_end_verified": false,
+      "live_partner_count": "UNKNOWN"
+    },
+    {
+      "id": "construction-and-trades",
+      "customer_route": "six-button-home > contextual choices > review",
+      "business_interface": "construction-and-trades-provider",
+      "required_engines": [
+        "matching",
+        "quotations",
+        "scheduling"
+      ],
+      "implementation": "UNKNOWN",
+      "end_to_end_verified": false,
+      "live_partner_count": "UNKNOWN"
+    },
+    {
+      "id": "retail-and-building-materials",
+      "customer_route": "six-button-home > contextual choices > review",
+      "business_interface": "retail-and-building-materials-provider",
+      "required_engines": [
+        "discovery",
+        "matching",
+        "logistics"
+      ],
+      "implementation": "UNKNOWN",
+      "end_to_end_verified": false,
+      "live_partner_count": "UNKNOWN"
+    },
+    {
+      "id": "health-and-veterinary",
+      "customer_route": "six-button-home > contextual choices > review",
+      "business_interface": "health-and-veterinary-provider",
+      "required_engines": [
+        "identity",
+        "consent",
+        "scheduling",
+        "audit"
+      ],
+      "implementation": "UNKNOWN",
+      "end_to_end_verified": false,
+      "live_partner_count": "UNKNOWN"
+    },
+    {
+      "id": "travel-visas-and-immigration",
+      "customer_route": "six-button-home > contextual choices > review",
+      "business_interface": "travel-visas-and-immigration-provider",
+      "required_engines": [
+        "eligibility",
+        "identity",
+        "consent",
+        "audit",
+        "human-escalation"
+      ],
+      "implementation": "UNKNOWN",
+      "end_to_end_verified": false,
+      "live_partner_count": "UNKNOWN"
+    },
+    {
+      "id": "property-and-diaspora-projects",
+      "customer_route": "six-button-home > contextual choices > review",
+      "business_interface": "property-and-diaspora-projects-provider",
+      "required_engines": [
+        "identity",
+        "matching",
+        "quotations",
+        "audit"
+      ],
+      "implementation": "UNKNOWN",
+      "end_to_end_verified": false,
+      "live_partner_count": "UNKNOWN"
+    },
+    {
+      "id": "professional-services-and-work",
+      "customer_route": "six-button-home > contextual choices > review",
+      "business_interface": "professional-services-and-work-provider",
+      "required_engines": [
+        "eligibility",
+        "identity",
+        "matching",
+        "audit"
+      ],
+      "implementation": "UNKNOWN",
+      "end_to_end_verified": false,
+      "live_partner_count": "UNKNOWN"
+    },
+    {
+      "id": "events-and-beauty",
+      "customer_route": "six-button-home > contextual choices > review",
+      "business_interface": "events-and-beauty-provider",
+      "required_engines": [
+        "discovery",
+        "matching",
+        "scheduling"
+      ],
+      "implementation": "UNKNOWN",
+      "end_to_end_verified": false,
+      "live_partner_count": "UNKNOWN"
+    },
+    {
+      "id": "logistics-and-couriers",
+      "customer_route": "six-button-home > contextual choices > review",
+      "business_interface": "logistics-and-couriers-provider",
+      "required_engines": [
+        "identity",
+        "matching",
+        "logistics",
+        "audit"
+      ],
+      "implementation": "UNKNOWN",
+      "end_to_end_verified": false,
+      "live_partner_count": "UNKNOWN"
+    }
+  ],
+  "hard_gates": [
+    "child safeguarding and verified handover",
+    "jurisdiction-specific professional authorisation",
+    "consent and tenant isolation",
+    "no fake inventory or prices",
+    "no live transaction without approvals",
+    "independent identity and evidence verification"
+  ],
+  "acceptance_tests": [
+    "all six buttons clickable",
+    "no dead-end paths",
+    "provider interface isolated",
+    "cross-sector plan review",
+    "no live order or payment",
+    "offline and stale-state failure",
+    "access-control denial",
+    "preserve prior approved versions"
+  ]
+}
