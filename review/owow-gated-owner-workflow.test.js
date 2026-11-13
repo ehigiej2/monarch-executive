@@ -1,0 +1,13 @@
+'use strict';
+const {test}=require('node:test'),assert=require('node:assert/strict');
+const {apply}=require('./owow-gated-owner-workflow.js');
+const {init}=require('./owow-owner-lifecycle.js');
+const {DEPENDENCIES}=require('./owow-chaos-resilience.js');
+const now=500000,healthy=()=>Object.fromEntries(DEPENDENCIES.map(x=>[x,{state:'HEALTHY',checkedAt:now}]));
+const rec=role=>({schema:'BENIN-OWNER-REVIEW-001',role,authority:false,crown:'HOLD',transaction:'BLOCKED',external_contact:'BLOCKED',decision:'OWNER_REVIEW_REQUIRED',real_customer_data:false,human_review_required:true,request_id:role==='terry'?'BENIN-TRADER-001':'BENIN-HAUL-003',sha256:'a'.repeat(64)});
+test('both roles can review during cloud outage, never authorise transactions',()=>{for(const role of ['terry','osayuki']){const h=healthy();h.cloud_ai.state='ISOLATED';h.cloud_storage.state='ISOLATED';const r=apply(init(rec(role)),'PREPARE',role,'Prepared offline review',h,now);assert.equal(r.snapshot.state,'PREPARED_FOR_REVIEW');assert.equal(r.snapshot.transaction,'BLOCKED')}});
+test('internet failure preserves local review',()=>{const h=healthy();h.internet.state='ISOLATED';assert.equal(apply(init(rec('terry')),'PREPARE','terry','Local review only',h,now).snapshot.revision,1)});
+test('power, device storage and combined failure block direct API calls',()=>{for(const dep of ['electricity','device_storage']){const h=healthy();h[dep].state='ISOLATED';assert.throws(()=>apply(init(rec('terry')),'PREPARE','terry','Should not work',h,now),/DEVICE_OUTAGE_HOLD/)}const h=healthy();for(const dep of DEPENDENCIES)h[dep].state='ISOLATED';assert.throws(()=>apply(init(rec('terry')),'PREPARE','terry','Should not work',h,now),/DEVICE_OUTAGE_HOLD/)});
+test('stale health blocks even if last state healthy',()=>{const h=healthy();h.device_storage.checkedAt=0;assert.throws(()=>apply(init(rec('terry')),'PREPARE','terry','Should not work',h,now),/DEVICE_OUTAGE_HOLD/)});
+test('cross-role actions and unknown actions fail',()=>{assert.throws(()=>apply(init(rec('terry')),'PREPARE','osayuki','Wrong role attempt',healthy(),now),/ROLE_SCOPE_HOLD/);assert.throws(()=>apply(init(rec('terry')),'PAY','terry','No payment allowed',healthy(),now),/TRANSITION_HOLD/)});
+test('recorded HOLD remains terminal even after recovery',()=>{const h=healthy();let s=init(rec('terry'));s=apply(s,'PREPARE','terry','Prepare owner review',h,now).snapshot;s=apply(s,'RECORD_HOLD','terry','Owner keeps on hold',h,now).snapshot;assert.throws(()=>apply(s,'PREPARE','terry','Attempt to reopen',h,now),/TRANSITION_HOLD/)});
