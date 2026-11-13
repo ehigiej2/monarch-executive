@@ -1,0 +1,35 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>MONARCH Connected Nigeria — Review</title><style>*{box-sizing:border-box}body{margin:0;color:#21304b;font:600 17px system-ui;background:linear-gradient(135deg,#fff8dd,#e4f5ff,#f4eaff);min-height:100dvh}main{max-width:680px;margin:auto;padding:16px}header{display:flex;justify-content:space-between;align-items:center}h1{font-size:25px;margin:4px 0}h2{font-size:22px;margin:12px 0 18px}.hold{font-size:11px;border:1px solid #c99f36;border-radius:18px;padding:7px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}button{border:0;border-radius:24px;padding:12px;font:700 18px system-ui;color:#21304b;min-height:clamp(108px,19dvh,180px);cursor:pointer;box-shadow:0 3px 0 #24314b18}button:focus-visible{outline:3px solid #20324c}button span{display:block;font-size:34px;margin-bottom:9px}.back{min-height:50px;padding:12px 20px;background:white;border:1px solid #aabed2;margin:5px 0 10px}.panel{background:#fff;border:1px solid #bccbd9;border-radius:20px;padding:18px;margin-top:14px}p{font-weight:450;line-height:1.5}.note{font-size:12px;margin-top:16px}.tag{display:inline-block;background:#e7f2ff;padding:7px;border-radius:12px;font-size:12px;margin:4px}input,select{width:100%;font:18px system-ui;padding:13px;border:1px solid #b2bfd1;border-radius:12px;margin:8px 0}label{display:block;margin-top:12px}.wide{width:100%;min-height:64px;margin-top:12px}</style><main><header><h1>👑 MONARCH</h1><span class="hold">REVIEW · HOLD</span></header><h2 id="heading">Wetin you wan do?</h2><div class="grid" id="choices"></div><section id="detail"></section><p class="note">Synthetic navigation only. No live suppliers, schools, drivers, prices, bookings, payments or partnerships. CROWN HOLD.</p></main><script>
+const sectors=[
+['🍲','Food & Chop','Mama put, akara, suya, caterers, restaurants','food'],
+['🚕','Waka & Transport','Taxi, school runs, bus tickets, truck, couriers','transport'],
+['🛒','Market & Shops','Supermarket, market women, building materials, spare parts','market'],
+['🛠️','Trades & Repairs','Painter, carpenter, mechanic, welder, borehole','trades'],
+['🎓','School & Skills','School Waka, mentors, courses, research','school'],
+['🌾','Farm & Animals','Farm produce, cooperatives, vets, pet care','farm'],
+['🏠','Home & Property','Rent, buy, renovate, domestic help','home'],
+['💼','Work & Professionals','Post jobs, apply, legal, accounting, creative','work'],
+['🎉','Events & Lifestyle','Live band, beauty, spa, hotels, parties','events'],
+['🌍','Diaspora & Global','Project monitoring, sourcing, global experts','global']
+];
+const paths={
+food:['🍲 Mama Put','🥯 Akara & Bread','🍢 Suya','🍱 Online Food Vendors','🍗 Fast Food','🎉 Catering','🍽️ Restaurant','🧃 Groceries'],
+transport:['🚕 Book Taxi','🤝 Share Ride','📍 Add Stops','🏫 School Waka','🚌 Bus Ticket','🚛 Move Goods','🛵 Courier','🚐 Group Trip'],
+market:['🛒 Supermarket','🧱 Building Materials','⚙️ Spare Parts','🥩 Meat & Fish','🍠 Bulk Yam','🥤 Drinks Supplier','🧴 Daily Essentials','🌏 Import Sourcing'],
+trades:['🎨 Painting','🧱 Bricklayer','🔩 Welder','🪚 Carpenter','🔧 Mechanic','🚰 Borehole','⚡ Electrician','📝 Other Work'],
+school:['🎒 Student Help','👨‍👩‍👧 Parent Controls','🚐 School Runs','🏫 School Resources','👩‍🏫 Find Mentor','🔬 Research Together','💼 Skills Training','🌍 Diaspora Experts'],
+farm:['🍠 Sell Produce','🚛 Farm Transport','👥 Cooperatives','🌱 Buy Farm Inputs','🐶 Pet Care','🩺 Find Vet','🥣 Animal Feed','🏦 Finance Information'],
+home:['🏠 Rent House','🏡 Buy House','🎨 Renovate','🧹 House Help','🚰 Water Supply','📍 Inspect Property','🛠️ Maintenance','📸 Diaspora Check'],
+work:['👷 Find Worker','📋 Post Work','🧑‍🔧 Apply for Work','⚖️ Legal Services','📊 Accountant','💻 Digital Work','✂️ Tailor','🩺 Qualified Professional'],
+events:['🎸 Live Band','🍽️ Catering','💇 Barber & Salon','💅 Beauty & Spa','🏨 Hotel','🍻 Lounge','🎉 Party Planning','🚕 Event Transport'],
+global:['🏗️ Inspect My Project','🌍 Find Expert','🚢 Cross-border Goods','🎓 Diaspora Mentoring','📦 Source Parts','🏫 School Collaboration','📋 Compare Quotes','🔬 Research']
+};
+const colors=['#ffdb83','#b2e6fc','#b8ebce','#f5c6df','#cac9ff','#ffd0b1'];let history=[],selected=[];const choices=document.getElementById('choices'),detail=document.getElementById('detail'),heading=document.getElementById('heading');
+function paint(title,items,handler){heading.textContent=title;choices.replaceChildren();detail.replaceChildren();items.forEach((it,i)=>{let label=typeof it==='string'?it:it[0]+' '+it[1];let emoji=label.split(' ')[0];let b=document.createElement('button');b.style.background=colors[i%colors.length];let e=document.createElement('span');e.textContent=emoji;b.append(e,document.createTextNode(label.slice(emoji.length).trim()));b.onclick=()=>handler(it,i);choices.append(b)});if(history.length){let back=document.createElement('button');back.className='back';back.textContent='⬅️ Go Back';back.onclick=()=>{const f=history.pop();f()};detail.append(back)}}
+function enter(render){history.push(current);current=render;render()}let current=home;
+function home(){paint('Wetin you wan do?', ['🔎 Find Anything','🛒 Buy Something','🛠️ Book a Service','🛵 Send Something','📍 Choose Location','🎙️ Talk to Osayi'],()=>enter(categories))}
+function categories(){paint('Which area you wan explore?',sectors,(item)=>enter(()=>sub(item)))}
+function sub(item){const key=item[3];paint(item[0]+' '+item[1],paths[key],option=>enter(()=>choice(item,option)))}
+function choice(item,option){paint('Wetin you wan do next?', ['🔎 Explore Options','⚖️ Compare Choices','📍 Choose Area','🧩 Join Another Service','📝 Describe My Need','👥 See Who Fit Help'],(x,i)=>enter(()=>last(item,option,x,i)))}
+function last(item,option,x,i){paint(x+' — '+option,['📍 Benin City','🌍 Anywhere for Nigeria','🔁 Go Back to More Choices','📋 Prepare Review Request'],(y,j)=>{if(j===2){history.pop();current=()=>choice(item,option);current();return}if(j===3){detail.innerHTML='<div class="panel"><strong>Review only — no real order</strong><p>'+[item[1],option,x].join(' → ')+'</p><p>Live provider identity, availability, prices and delivery remain UNKNOWN. No request sent.</p></div>';return}detail.innerHTML='<div class="panel"><strong>Selected:</strong> '+y+'<p>Explore and compare options before any request. Live providers UNKNOWN.</p></div>'})}
+home();
+</script></html>
