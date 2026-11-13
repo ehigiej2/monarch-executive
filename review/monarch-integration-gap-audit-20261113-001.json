@@ -1,0 +1,80 @@
+{
+  "id": "MONARCH-INTEGRATION-AUDIT-20261113-001",
+  "scope": "Two fetched files on default branch only; no full repository tree or runtime inspection",
+  "evidence": [
+    {
+      "file": "review/monarch-universal-integration-registry-candidate-20261113.json",
+      "sha": "288e074f5275402f2b665ec591ab5aa16af05a7b",
+      "result": "EXISTS; declarative registry only"
+    },
+    {
+      "file": "monarch-connected-nigeria-button-lab-20261113-v1.html",
+      "sha": "02983671b9d65705f88a4920871454589dca90e3",
+      "result": "EXISTS; self-contained synthetic navigation page"
+    }
+  ],
+  "findings": [
+    {
+      "id": "GAP-001",
+      "severity": "critical",
+      "finding": "Registry engine names are not backed by verified code entrypoints or contracts",
+      "status": "OPEN",
+      "closure": "Enumerate actual repo components; map each required engine to source path and tests"
+    },
+    {
+      "id": "GAP-002",
+      "severity": "critical",
+      "finding": "Button prototype uses fixed sector paths; no live service/provider connection",
+      "status": "OPEN",
+      "closure": "Implement review-only shared catalogue adapter and validate schema without live calls"
+    },
+    {
+      "id": "GAP-003",
+      "severity": "high",
+      "finding": "No proof that buttons and deep navigation pass iPhone runtime testing",
+      "status": "OPEN",
+      "closure": "Browser interaction test on device; back, category, comparison, location, review, error cases"
+    },
+    {
+      "id": "GAP-004",
+      "severity": "high",
+      "finding": "No verified cross-role access enforcement between customers, schools, drivers, lawyers and providers",
+      "status": "OPEN",
+      "closure": "Role/tenant negative tests and consent checks"
+    },
+    {
+      "id": "GAP-005",
+      "severity": "high",
+      "finding": "No verified inventory, pricing, ticketing, licence, legal-jurisdiction or school-safeguarding integrations",
+      "status": "OPEN",
+      "closure": "Keep UNKNOWN and block live transactions until source and regulatory gates proven"
+    },
+    {
+      "id": "GAP-006",
+      "severity": "medium",
+      "finding": "Current emoji and labels are authored per button, not generated from approved taxonomy with visual QA",
+      "status": "OPEN",
+      "closure": "Build deterministic icon/label registry with fallback, Pidgin review and accessibility checks"
+    }
+  ],
+  "verified": [
+    "GitHub default branch fetch succeeded for two named files",
+    "Registry explicitly marks all 13 sectors unverified",
+    "Button prototype is labelled synthetic and CROWN HOLD"
+  ],
+  "not_verified": [
+    "Full repo inventory",
+    "14 engine implementations",
+    "End-to-end cross-sector workflows",
+    "Live mobile availability",
+    "Regression test outcomes"
+  ],
+  "next_actions": [
+    "Reconnect Chromebook or use full GitHub tree discovery",
+    "Create source-path-to-registry mapping in review branch",
+    "Run static and browser navigation tests",
+    "Fix proven gaps in new review files only",
+    "Require founder approval before operational merge or deployment"
+  ],
+  "crown_hold": true
+}
