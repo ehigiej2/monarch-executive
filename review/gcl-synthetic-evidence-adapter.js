@@ -27,7 +27,7 @@ function project(input,context){
     if(typeof input[field]!=='string'||!input[field].trim())return fail('MISSING_'+field.toUpperCase());
     if(input[field].length>600)return fail('FIELD_TOO_LONG');
   }
-  if(!/^\d{4}-\d{2}-\d{2}$/.test(input.publication_date)||Number.isNaN(Date.parse(input.publication_date+'T00:00:00Z')))return fail('INVALID_DATE');
+  if(!/^\d{4}-\d{2}-\d{2}$/.test(input.publication_date)||Number.isNaN(Date.parse(input.publication_date+'T00:00:00Z'))||new Date(input.publication_date+'T00:00:00Z').toISOString().slice(0,10)!==input.publication_date)return fail('INVALID_DATE');
   if(!WORKFLOWS.includes(input.workflow_id))return fail('UNKNOWN_WORKFLOW');
   if(input.verified_at!==null&&input.verified_at!==undefined)return fail('SYNTHETIC_NOT_ORIGINALLY_VERIFIED');
   if(input.revision_status!=='UNKNOWN')return fail('REVISION_NOT_VERIFIED');
