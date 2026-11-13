@@ -39,14 +39,13 @@ test('rejects unapproved role and scope',()=>{
  const n=structuredClone(manifest);n.profiles[1].data_scope='REAL';
  assert.throws(()=>generator.generate(n),/PROFILE_SCOPE_HOLD/);
 });
-test('escapes untrusted profile titles and evidence identifiers',()=>{
+test('rejects untrusted HTML in identity and evidence identifiers',()=>{
  const m=structuredClone(manifest);
  m.profiles[0].id='<img src=x onerror=alert(1)>';
- m.profiles[0].candidate_workflows=['<script>alert(1)</script>'];
- const html=generator.generate(m)[0].html;
- assert.doesNotMatch(html,/<img src=x|<script>alert\(1\)<\/script>/);
- assert.match(html,/&lt;img/);
- assert.match(html,/&lt;script&gt;/);
+ assert.throws(()=>generator.generate(m),/IDENTITY_SCOPE_HOLD/);
+ const n=structuredClone(manifest);
+ n.profiles[0].candidate_workflows=['<script>alert(1)</script>'];
+ assert.throws(()=>generator.generate(n),/WORKFLOW_SCOPE_HOLD/);
 });
 
 test('rejects identity, jurisdiction and workflow injection',()=>{
