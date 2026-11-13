@@ -1,0 +1,14 @@
+'use strict';
+const {test}=require('node:test'),assert=require('node:assert/strict');
+const {evaluate,DEPENDENCIES,MAX_AGE_MS}=require('./owow-chaos-resilience.js');
+const now=100000,ctx={crown:'HOLD',synthetic:true,authority:false};
+const healthy=()=>Object.fromEntries(DEPENDENCIES.map(d=>[d,{state:'HEALTHY',checkedAt:now}]));
+test('healthy synthetic environment still blocks writes',()=>{const r=evaluate(healthy(),now,ctx);assert.equal(r.features.local_review,'LOCAL_REVIEW_ONLY');assert.equal(r.features.cloud_reasoning,'LOCAL_REVIEW_ONLY');assert.equal(r.features.external_payment,'BLOCKED')});
+test('Microsoft-style multi cloud failure retains local review',()=>{const h=healthy();h.cloud_ai.state='ISOLATED';h.cloud_storage.state='ISOLATED';const r=evaluate(h,now,ctx);assert.equal(r.features.local_review,'LOCAL_REVIEW_ONLY');assert.equal(r.features.cloud_reasoning,'UNAVAILABLE');assert.equal(r.features.cloud_document_sync,'BLOCKED')});
+test('internet outage retains local but isolates remote',()=>{const h=healthy();h.internet.state='ISOLATED';const r=evaluate(h,now,ctx);assert.equal(r.features.local_commercial_calculation,'LOCAL_REVIEW_ONLY');assert.equal(r.features.cloud_reasoning,'UNAVAILABLE')});
+test('electricity and storage failures block local operations',()=>{for(const dep of ['electricity','device_storage']){const h=healthy();h[dep].state='ISOLATED';const r=evaluate(h,now,ctx);assert.equal(r.features.local_review,'UNAVAILABLE');assert.equal(r.features.cloud_reasoning,'UNAVAILABLE')}});
+test('combined cloud, power, internet, storage failure is fail-closed',()=>{const h=healthy();for(const dep of DEPENDENCIES)h[dep].state='ISOLATED';const r=evaluate(h,now,ctx);assert.ok(Object.values(r.features).every(v=>v==='UNAVAILABLE'||v==='BLOCKED'));assert.equal(r.recovery,'MANUAL_REVIEW_ONLY')});
+test('stale health checks fail closed',()=>{const h=healthy();h.device_storage.checkedAt=now-MAX_AGE_MS-1;const r=evaluate(h,now,ctx);assert.equal(r.features.local_review,'UNAVAILABLE');assert.ok(r.reasons.includes('device_storage:STALE'))});
+test('unknown, future, and missing health fail closed',()=>{for(const mode of ['future','missing','unknown']){const h=healthy();if(mode==='future')h.internet.checkedAt=now+1;if(mode==='missing')delete h.internet;if(mode==='unknown')h.internet.state='UNKNOWN';assert.equal(evaluate(h,now,ctx).features.cloud_reasoning,'UNAVAILABLE')}});
+test('recovery-review state never automatically releases a dependency',()=>{const h=healthy();h.cloud_ai.state='RECOVERY_REVIEW';assert.equal(evaluate(h,now,ctx).features.cloud_reasoning,'UNAVAILABLE')});
+test('rejects real data and authority',()=>{assert.throws(()=>evaluate(healthy(),now,{...ctx,synthetic:false}),/HEALTH_CONTEXT_HOLD/);assert.throws(()=>evaluate(healthy(),now,{...ctx,authority:true}),/HEALTH_CONTEXT_HOLD/)});
