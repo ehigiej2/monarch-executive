@@ -48,3 +48,16 @@ test('escapes untrusted profile titles and evidence identifiers',()=>{
  assert.match(html,/&lt;img/);
  assert.match(html,/&lt;script&gt;/);
 });
+
+test('rejects identity, jurisdiction and workflow injection',()=>{
+ const scenarios=[
+  m=>{m.profiles[0].id='OSAYUKI';},
+  m=>{m.profiles[0].jurisdiction='GB';},
+  m=>{m.profiles[0].candidate_workflows=['WF-SOURCE-003<script>'];},
+  m=>{m.profiles[1].candidate_workflows=[];}
+ ];
+ for(const change of scenarios){
+  const m=structuredClone(manifest);change(m);
+  assert.throws(()=>generator.generate(m));
+ }
+});
