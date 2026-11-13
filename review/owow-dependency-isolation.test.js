@@ -1,0 +1,10 @@
+'use strict';
+const {test}=require('node:test'),assert=require('node:assert/strict');
+const {assess,transition}=require('./owow-dependency-isolation.js');
+const ctx={crown:'HOLD',synthetic:true,authority:false};
+test('local Benin review remains usable without cloud',()=>{for(const f of ['local_review','local_commercial_calculation','local_deterministic_explanation'])assert.equal(assess({cloud_ai:'ISOLATED',cloud_storage:'ISOLATED'},f,ctx).decision,'LOCAL_REVIEW_ONLY')});
+test('cloud reasoning isolates when supplier down',()=>assert.equal(assess({cloud_ai:'ISOLATED'},'cloud_reasoning',ctx).decision,'UNAVAILABLE'));
+test('all external writes blocked even if healthy',()=>{for(const f of ['cloud_document_sync','remote_dispatch','external_payment'])assert.equal(assess({cloud_storage:'HEALTHY',dispatch_api:'HEALTHY',payments_api:'HEALTHY'},f,ctx).decision,'BLOCKED')});
+test('recovery does not immediately reopen cloud',()=>{let s=transition('HEALTHY','FAILURE');assert.equal(s,'ISOLATED');s=transition(s,'SUCCESS');assert.equal(s,'ISOLATED');s=transition(s,'RECOVERY_PROBE_PASS');assert.equal(s,'RECOVERY_REVIEW');s=transition(s,'OWNER_RELEASE_REVIEW');assert.equal(s,'DEGRADED')});
+test('unknown and missing dependency fail closed',()=>{assert.throws(()=>assess({},'cloud_reasoning',ctx),/DEPENDENCY_HOLD/);assert.throws(()=>assess({},'new_feature',ctx),/UNKNOWN_FEATURE_HOLD/);assert.throws(()=>assess({cloud_ai:'UNKNOWN'},'cloud_reasoning',ctx),/DEPENDENCY_HOLD/)});
+test('real data and authority are rejected',()=>{assert.throws(()=>assess({},'local_review',{...ctx,synthetic:false}),/CONTEXT_HOLD/);assert.throws(()=>assess({},'local_review',{...ctx,authority:true}),/CONTEXT_HOLD/)});
