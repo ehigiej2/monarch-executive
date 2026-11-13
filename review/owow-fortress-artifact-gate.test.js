@@ -1,0 +1,9 @@
+'use strict';
+const {test}=require('node:test'),assert=require('node:assert/strict');
+const {assess}=require('./owow-fortress-artifact-gate.js');
+const sample=()=>({synthetic:true,ownerApproved:false,deploymentApproved:false,tenant:'benin_demo',product:'terry_review',artifacts:[{path:'dist/index.html',kind:'app-ui',containsSecrets:false,containsInternalSource:false,containsSourceMap:false,containsPersonalData:false}]});
+test('synthetic product package is eligible for build review, never deployment',()=>{const r=assess(sample());assert.equal(r.decision,'SYNTHETIC_BUILD_ELIGIBLE_ONLY');assert.equal(r.deployable,false)});
+test('FORTRESS and generator source are prohibited',()=>{for(const kind of ['fortress','generator','owow-internal','private-keys','source-map','credentials','internal-evidence'])assert.equal(assess({...sample(),artifacts:[{...sample().artifacts[0],kind}]}).decision,'HOLD')});
+test('secret, internal code, personal data and source maps fail closed',()=>{for(const field of ['containsSecrets','containsInternalSource','containsSourceMap','containsPersonalData'])assert.equal(assess({...sample(),artifacts:[{...sample().artifacts[0],[field]:true}]}).decision,'HOLD')});
+test('path traversal, duplicate and unapproved artifact type fail',()=>{assert.equal(assess({...sample(),artifacts:[{...sample().artifacts[0],path:'dist/../fortress.js'}]}).decision,'HOLD');assert.equal(assess({...sample(),artifacts:[...sample().artifacts,...sample().artifacts]}).decision,'HOLD');assert.equal(assess({...sample(),artifacts:[{...sample().artifacts[0],kind:'unknown'}]}).decision,'HOLD')});
+test('production or approval claims are not admitted by this test gate',()=>{assert.equal(assess({...sample(),synthetic:false}).decision,'HOLD');assert.equal(assess({...sample(),deploymentApproved:true}).decision,'HOLD')});
