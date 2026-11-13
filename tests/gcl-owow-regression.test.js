@@ -40,4 +40,6 @@ check('Observed source elevation blocked',()=>assert.equal(adapter.project({...a
 check('Personal-data field blocked',()=>assert.equal(adapter.project({...adapter.examples[0],customer_name:'X'},ctx).decision,'HOLD'));
 check('Unapproved rights blocked',()=>assert.equal(adapter.project({...adapter.examples[0],rights_status:'OPEN'},ctx).decision,'HOLD'));
 check('No execution authority',()=>assert.equal(adapter.project(adapter.examples[0],ctx).projection.execution,'PROHIBITED'));
+check('Impossible date blocked',()=>assert.equal(adapter.project({...adapter.examples[0],publication_date:'2026-02-30'},ctx).decision,'HOLD'));
+check('Unrecognised workflow blocked',()=>assert.equal(adapter.project({...adapter.examples[0],workflow_id:'WF-UNKNOWN'},ctx).decision,'HOLD'));
 process.stdout.write('TOTAL '+n+'/'+n+' simulated checks passed; real Safari/iPhone and production security UNKNOWN.\n');
