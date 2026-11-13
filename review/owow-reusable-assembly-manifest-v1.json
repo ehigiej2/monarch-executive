@@ -1,0 +1,46 @@
+{
+  "schema": "MONARCH-OWOW-REUSABLE-ASSEMBLY-V1",
+  "mode": "SYNTHETIC_REVIEW_ONLY",
+  "authority": false,
+  "execution": "PROHIBITED",
+  "governance": "CROWN_HOLD",
+  "canonical_context_lake": "MONARCH-CTX-LAKE-001",
+  "shared": {
+    "evidence_adapter": "review/gcl-synthetic-evidence-adapter.js",
+    "application": "monarch-owow-three-interface-review-20261113.html",
+    "voice_contract": "LOCAL_RECOVERED_AION_COMM_V01_NOT_BUNDLED",
+    "reasoning_contract": "LOCAL_RECOVERED_DUAL_REASONING_V1_NOT_BUNDLED",
+    "voice_runtime": "UNKNOWN",
+    "reasoning_runtime": "UNKNOWN"
+  },
+  "profiles": [
+    {
+      "id": "TERRY",
+      "role": "terry",
+      "jurisdiction": "NG-EDO",
+      "interface": "SIX_BUTTON_EXISTING",
+      "candidate_workflows": ["WF-SOURCE-003", "WF-PROC-005"],
+      "data_scope": "SYNTHETIC_DEMO",
+      "allowed_output": "OWNER_REVIEW_DRAFT_ONLY"
+    },
+    {
+      "id": "OSAYUKI",
+      "role": "osayuki",
+      "jurisdiction": "NG-EDO",
+      "interface": "SIX_BUTTON_EXISTING",
+      "candidate_workflows": ["WF-LOG-004", "WF-TRADE-001"],
+      "data_scope": "SYNTHETIC_DEMO",
+      "allowed_output": "OWNER_REVIEW_DRAFT_ONLY"
+    }
+  ],
+  "generation_gates": {
+    "reuse_before_build": true,
+    "no_personal_data": true,
+    "no_network": true,
+    "no_payment": true,
+    "no_deployment": true,
+    "no_production_merge": true,
+    "separate_tenant_auth": "UNVERIFIED",
+    "mobile_browser": "UNVERIFIED"
+  }
+}
