@@ -15,6 +15,8 @@ function assertManifest(m){
  if(!m.shared||m.shared.voice_runtime!=='UNKNOWN'||m.shared.reasoning_runtime!=='UNKNOWN')throw Error('RUNTIME_CLAIM_HOLD');
  if(!Array.isArray(m.profiles)||m.profiles.length!==2||new Set(m.profiles.map(p=>p.role)).size!==2)throw Error('PROFILE_HOLD');
  if(m.profiles.some(p=>!labels[p.role]||p.data_scope!=='SYNTHETIC_DEMO'||p.allowed_output!=='OWNER_REVIEW_DRAFT_ONLY'||p.interface!=='SIX_BUTTON_EXISTING'))throw Error('PROFILE_SCOPE_HOLD');
+ if(m.profiles.some(p=>p.jurisdiction!=='NG-EDO'||!Array.isArray(p.candidate_workflows)||p.candidate_workflows.length===0||p.candidate_workflows.length>6||p.candidate_workflows.some(w=>!/^WF-[A-Z]+-[0-9]{3}$/.test(w))))throw Error('WORKFLOW_SCOPE_HOLD');
+ if(m.profiles.some(p=>p.id!==p.role.toUpperCase()))throw Error('IDENTITY_SCOPE_HOLD');
 }
 function generate(m){
  assertManifest(m);
